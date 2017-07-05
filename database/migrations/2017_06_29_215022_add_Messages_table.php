@@ -15,8 +15,11 @@ class AddMessagesTable extends Migration
     {
         Schema::create('Messages', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('chat_id');
             $table->string('chat_label');
-            $table->string('text');
+            $table->text('text');
+            $table->string('sender');
+            $table->tinyInteger('read');
             $table->timestamps();
         });
     }

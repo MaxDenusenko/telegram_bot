@@ -11,6 +11,6 @@ class MainController extends Controller
 
     public function __construct()
     {
-        $this->telegramBotToken = new Api('428165359:AAEYrJq5stUfPGzk1wdtY0fnEzQcRpANNlM');
+        $this->telegramBotToken = new Api(config('telegram.bot_token'));
     }
 }

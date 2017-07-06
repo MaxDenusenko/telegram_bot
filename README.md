@@ -18,4 +18,9 @@
 <p>If you want to cache the settings, use the command</p>
 <pre>php artisan config:cache</pre>
 <h3>Bot</h3>
-<p>The bot receives user messages and writes them to active dialogs. An active dialog can only be one per user. When the active dialog is closed or deleted, the status changes to inactive all local messages to be assigned to it or in case the deletion is erased, a new active dialog is created and all unread messages are moved to it.</p>
+<p>The bot sends and receives user messages by writing them to active dialogs.</p>
+<p>Each user can have only one active dialog.</p>
+<p>Each dialog can be deleted</p>
+<p>Unread messages when you delete or close the dialog are moved to the new active dialog</p>
+<p></p>
+

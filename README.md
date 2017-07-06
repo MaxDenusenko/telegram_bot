@@ -5,10 +5,10 @@
 <h3>Installation</h3>
 <p>Upload all files to a working folder on your server</p>
 <p>Configure your database connection in the <code>config / database.php</code></p>
-<p>Start the migration with the command:</p>
-<pre>php artisan migrate update</pre>
 <p>Run for execution command:</p>
 <pre>composer update</pre>
+<p>Start the migration with the command:</p>
+<pre>php artisan migrate update</pre>
 <h3>Setup</h3>
 <p>Go to the <code>config / telegram.php</code> file and register your bot token</p>
 <pre>'bot_token' property => env ('BOT_TOKEN', false)</pre> 

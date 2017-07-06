@@ -59,7 +59,10 @@ p {
 
 #login {
 	display: flex;
-	height:100%;
+    flex-direction: column;
+    height: 95%;
+    justify-content: center;
+    align-items: center;
 }
 
 form {
@@ -123,6 +126,10 @@ form {
 
 #login > p span {
 	padding-left: 5px;
+}
+
+.help-block {
+	padding-top: 40px;
 }
 
 .vladmaxi-top{

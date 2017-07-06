@@ -164,11 +164,6 @@ class IndexController extends MainController
     {
         $message = $MessagesModel->selectMessage($chat_label);
 
-        foreach ($message as $k => $v)
-        {
-            $v->text = str_replace("<br>", "\n", $v->text);
-        }
-
         if (!$message -> isEmpty())
         {
             $MessagesModel->updateStatusMessage($chat_label);

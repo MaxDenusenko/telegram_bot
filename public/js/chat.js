@@ -46,7 +46,7 @@ function sendMessages(chat_id, chat_label)
 }
 
 
-setInterval(retrieveChatMessages,10000);
+setInterval(retrieveChatMessages,7000);
 
 function retrieveChatMessages() {
 

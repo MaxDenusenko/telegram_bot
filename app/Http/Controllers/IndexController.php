@@ -38,8 +38,8 @@ class IndexController extends MainController
         {
             foreach ($response as $k => $v)
             {
-                $user_id       = $v['message']['from']['id'];
-                $first_name    = $v['message']['from']['first_name'];
+                $user_id       = @$v['message']['from']['id']?:"";
+                $first_name    = @$v['message']['from']['first_name']?:"";
                 $last_name     = @$v['message']['from']['last_name']?:"";
                 $language_code = @$v['message']['from']['language_code']?:"";
 

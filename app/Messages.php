@@ -76,8 +76,6 @@ class Messages extends Model
         {
             $arr_text = explode("\n", $this->word_chunk($text, 1000));
 
-            $text = str_replace("<br>", "\n", $text);
-
             foreach ($arr_text as  $v)
             {
                 Messages::create([
@@ -91,9 +89,7 @@ class Messages extends Model
 
             return true;
         }
-
-        $text = str_replace("<br>", "\n", $text);
-
+        
         return Messages::create([
                                 'chat_id'   => $chat_id,
                                 'chat_label' => $chat_label,

@@ -18,6 +18,7 @@
 <p>If you want to cache the settings, use the command</p>
 <pre>php artisan config:cache</pre>
 <h3>Bot</h3>
+<p>To add a bot in the telegram, use the nickname <code>@AdamMessageBot</code></p>
 <p>The bot sends and receives user messages by writing them to active dialogs.</p>
 <p>Each user can have only one active dialog.</p>
 <p>Each dialog can be deleted</p>

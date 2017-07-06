@@ -10,4 +10,4 @@ $( document ).ready(setInterval(function q() {
             }
         }
     });
-},9000));
+},6000));

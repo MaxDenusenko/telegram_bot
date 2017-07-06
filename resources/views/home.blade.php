@@ -4,7 +4,7 @@
     <div class="wrapper" id="app">
         <div class="top">
             <a href="#">@AdamMessageBot</a>
-            <img id="sound" src="@if($_COOKIE["sound"] == 1){{ asset('img/sound.png') }}@else{{ asset('img/mute.png') }}@endif" alt="sound" title="Sound message">
+            <img id="sound" src="@if(isset($_COOKIE["sound"]) and ($_COOKIE["sound"] == 1) ){{ asset('img/sound.png') }}@else{{ asset('img/mute.png') }}@endif" alt="sound" title="Sound message">
             <a class="text-color" href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 Logout

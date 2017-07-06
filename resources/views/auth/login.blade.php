@@ -21,6 +21,8 @@
             <p><span class="fontawesome-lock"></span><input placeholder="password" id="password" type="password" class="form-control" name="password" required></p>
 
             <p><input type="submit" value="Log in"></p>
+            
+            <p>or <a href="{{ route('register') }}">Register</a></p>
         </fieldset>
     </form>
     </div>>

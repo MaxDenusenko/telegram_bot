@@ -8,7 +8,7 @@ class UsersChat extends Model
 {
     protected $table = 'UsersChat';
 
-    protected $fillable = ['user_id','first_name','last_name','language_code'];
+    protected $fillable = ['user_id', 'first_name', 'last_name', 'language_code'];
 
     public function getUser($user_id)
     {

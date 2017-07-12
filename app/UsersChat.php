@@ -12,12 +12,12 @@ class UsersChat extends Model
 
     public function getUser($user_id)
     {
-        return \DB::table('UsersChat')->where('user_id', '=', $user_id)->get();
+        return $this->where('user_id', '=', $user_id)->get();
     }
 
     public function createUser($user_id, $first_name, $last_name = '', $language_code = '')
     {
-        return UsersChat::create([
+        return $this->create([
                                 'user_id'          => $user_id,
                                 'first_name'       => $first_name,
                                 'last_name'        => $last_name,
@@ -27,7 +27,7 @@ class UsersChat extends Model
 
     public function selectUsers()
     {
-        return \DB::table('UsersChat')->select('id','user_id', 'first_name', 'last_name', 'language_code')->get();
+        return $this->select('id','user_id', 'first_name', 'last_name', 'language_code')->get();
     }
 }
 

@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\DB;
 use Telegram\Bot\Api;
 
 class Messages extends Model
@@ -11,55 +13,59 @@ class Messages extends Model
 
     protected $fillable = ['chat_id','chat_label','text', 'sender', 'read'];
 
-    public $text;
+    public function scopeWhereChatLabel($query, $chat_label)
+    {
+        return $query->where('chat_label', '=', $chat_label);
+    }
 
-    public $chat_id;
-
-    public $chat_label;
+    public function scopeWhereIdNull($query)
+    {
+        return $query->where('read', '=', '0');
+    }
 
     public function deleteMessage($chat_label)
     {
-        return \DB::table('Messages')->where('chat_label', '=', $chat_label)->where('read','=','1')->delete();
+        return $this->WhereChatLabel($chat_label)->where('read','=','1')->delete();
     }
 
     public function updateMessage_Status_Label($chat_label,$newLabel)
     {
-        return \DB::table('Messages')->where('chat_label', '=', $chat_label)->where('read', '=', 0)->update(['chat_label' => $newLabel, 'read' => 1]);
+        return $this->WhereChatLabel($chat_label)->WhereIdNull()->update(['chat_label' => $newLabel, 'read' => 1]);
     }
 
     public  function selectNewMessages($chat_id)
     {
-        return \DB::table('Messages')->where('chat_id','=', $chat_id)->where('read', '=', '0')->get();
+        return $this->where('chat_id','=', $chat_id)->WhereIdNull()->get();
     }
 
     public function updateStatusMessage($chat_label)
     {
-        return \DB::table('Messages')->where('chat_label', '=', $chat_label)->update(['read' => '1']);
+        return $this->WhereChatLabel($chat_label)->update(['read' => '1']);
     }
 
     public function selectMessage($chat_label)
     {
-        return \DB::table('Messages')->where('chat_label', '=', $chat_label)->get();
+        return $this->WhereChatLabel($chat_label)->get();
     }
 
     public function selectAllNewMessages()
     {
-        return \DB::table('Messages')->where('read', '=', '0')->get();
+        return $this->WhereIdNull()->get();
     }
 
     public  function selectLastMessage($chat_label)
     {
-        return \DB::table('Messages')->select('chat_label','text','sender')->where('chat_label', '=', $chat_label)->orderBy('id','desc')->first();
+        return $this->select('chat_label','text','sender')->WhereChatLabel($chat_label)->orderBy('id','desc')->first();
     }
 
     public function textValidation($text, $start ,$len)
     {
-            $text = mb_strimwidth($text, $start, $len , '...');
+        $text = mb_strimwidth($text, $start, $len , '...');
 
         return $text;
     }
 
-    public function word_chunk($str, $len = 76, $end = "\n")
+    public function wordChunk($str, $len = 76, $end = "\n")
     {
         $pattern = '~.{1,' . $len . '}~u';
 
@@ -68,30 +74,27 @@ class Messages extends Model
         return rtrim($str, $end);
     }
 
-    public function createMessage($chat_id, $chat_label, $text = '', $first_name, $read)
+    public function createMessage($chat_id, $chat_label, $text, $first_name, $read)
     {
         $text = str_replace("\n", "<br>", $text);
 
-        if (strlen($text) > 1000)
-        {
-            $arr_text = explode("\n", $this->word_chunk($text, 1000));
+        if (strlen($text) > 1000) {
+            $arr_text = explode("\n", $this->wordChunk($text, 1000));
 
-            foreach ($arr_text as  $v)
-            {
-                Messages::create([
-                    'chat_id'   => $chat_id,
+            foreach ($arr_text as  $v) {
+                $this->create([
+                    'chat_id'    => $chat_id,
                     'chat_label' => $chat_label,
                     'text'       => trim($v),
                     'sender'     => $first_name,
                     'read'       => $read,
                 ]);
             }
-
             return true;
         }
         
-        return Messages::create([
-                                'chat_id'   => $chat_id,
+        return $this->create([
+                                'chat_id'    => $chat_id,
                                 'chat_label' => $chat_label,
                                 'text'       => $text,
                                 'sender'     => $first_name,
@@ -99,19 +102,19 @@ class Messages extends Model
                                 ]);
     }
 
-    public function SaveReadMessages()
+    public function saveReadMessages()
     {
-        return \DB::table('Messages')->where('read', '=', 0)->where('chat_id', '=', $this->chat_id)->update(['read' => 1]);
+        return $this->WhereIdNull()->where('chat_id', '=', $this->chat_id)->update(['read' => 1]);
     }
 
 
-    public function send($telegramBotToken)
+    public function send($telegramBotToken, $chat_id, $chat_label, $text)
     {
-        $this->createMessage($this->chat_id, $this->chat_label, $this->text, 'You', 1);
+        $this->createMessage($chat_id, $chat_label, $text, 'You', 1);
 
-        $this->text = str_replace("<br>", "\n", $this->text);
+        $text = str_replace("<br>", "\n", $text);
 
-        $telegramBotToken->sendMessage(['chat_id' => $this->chat_id, 'text' => $this->text]);
+        $telegramBotToken->sendMessage(['chat_id' => $chat_id, 'text' => $text]);
     }
 }
 

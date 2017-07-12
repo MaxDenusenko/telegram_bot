@@ -11,7 +11,7 @@ class Messages extends Model
 {
     protected $table = 'Messages';
 
-    protected $fillable = ['chat_id','chat_label','text', 'sender', 'read'];
+    protected $fillable = ['chat_id', 'chat_label', 'text', 'sender', 'read'];
 
     public function scopeWhereChatLabel($query, $chat_label)
     {
@@ -28,7 +28,7 @@ class Messages extends Model
         return $this->WhereChatLabel($chat_label)->where('read','=','1')->delete();
     }
 
-    public function updateMessage_Status_Label($chat_label,$newLabel)
+    public function updateMessage_Status_Label($chat_label, $newLabel)
     {
         return $this->WhereChatLabel($chat_label)->WhereIdNull()->update(['chat_label' => $newLabel, 'read' => 1]);
     }
@@ -58,7 +58,7 @@ class Messages extends Model
         return $this->select('chat_label','text','sender')->WhereChatLabel($chat_label)->orderBy('id','desc')->first();
     }
 
-    public function textValidation($text, $start ,$len)
+    public function textValidation($text, $start, $len)
     {
         $text = mb_strimwidth($text, $start, $len , '...');
 
